@@ -22,13 +22,9 @@ export default class FilmListesi extends Component {
                     <Card style={styles.cardStyle}>
                         <Link to={{ pathname: "/details", state: { card: card, poster_link: this.props.poster_link } }}>
                             <CardImg width={'100%'} src={(card.profile_path) ? (this.props.poster_link + card.profile_path) : UnknownProfile} />
-                        </Link>
+                        
                         <CardBlock style={{ border: '1px solid #d6d7da' }}>
-                            <Link to={{ pathname: "/details", state: { card: card, poster_link: this.props.poster_link } }}>
                                 <CardTitle style={styles.nameStyle}><b>{card.name}</b></CardTitle>
-                            </Link>
-
-                            {/* <Button color="secondary">Onay?</Button> */}
                         </CardBlock>
                         <CardSubtitle style={styles.subtitleStyle}>
                             <div style={styles.bottomStyle}>
@@ -36,6 +32,7 @@ export default class FilmListesi extends Component {
                                 
                             </div>
                         </CardSubtitle>
+                        </Link>
                     </Card>
                 </Col>
             )
@@ -64,6 +61,7 @@ const styles = {
     nameStyle: {
         color: '#000000',
         fontSize: 18,
+        minHeight: 42,
     },
     overviewStyle: {
         color: '#898989',

@@ -28,8 +28,6 @@ export default class FilmListesi extends Component {
                                 <CardTitle style={styles.titleStyle}><b>{card.title}</b></CardTitle>
                             </Link>
                             <CardText style={styles.overviewStyle}>{card.overview.length > 100 ? card.overview.substring(0, 99) + "..." : card.overview}</CardText>
-
-                            {/* <Button color="secondary">Onay?</Button> */}
                         </CardBlock>
                         <CardSubtitle style={styles.subtitleStyle}>
                             <div style={styles.bottomStyle}>
