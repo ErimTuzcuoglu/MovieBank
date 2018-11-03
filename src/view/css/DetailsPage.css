@@ -47,5 +47,10 @@ height: 100%;
 .bottomStyle {
         margin: auto;
         width: 95%;
-        padding: 10px;
+        padding-top: 10px;
     }
+.dropdownStyle {
+    background: url('./../image/star.png');
+    width: 32px;
+    height: 32px;
+}

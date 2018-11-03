@@ -7,13 +7,11 @@ import { Col,
 export default class ContentContainer extends Component {
     render() {
         return (
-            <Col sm={12} md={12}>
                 <div style={styles.jumbotronStyle}>
                     <h2>{this.props.title}</h2>
                     <hr className="my-2" />
                     <div>{this.props.children}</div>
                 </div>
-            </Col>
         );
     }
 }

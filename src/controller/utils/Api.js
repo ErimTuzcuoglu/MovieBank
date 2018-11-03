@@ -10,8 +10,10 @@ export const Poster_Link = "http://image.tmdb.org/t/p/w185/";
 
 
 
-export function Fetch(DEFAULT_QUERY) {
-    return axios.get(API + DEFAULT_QUERY + API_KEY)
+export function Fetch(DEFAULT_QUERY, page) {
+    if(page == undefined) { page = "" };
+
+    return axios.get(API + DEFAULT_QUERY + API_KEY + page)
         /*.then(results => {
             return results.json;
         });*/

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
-    Container,
-    Row, Col, Table
+    Container, Col, Row
 } from 'reactstrap';
-import { Poster_Link } from './../../controller/utils/Api';
 import CardList from './CardList';
 import CelebList from './CelebList';
 import Footer from './Footer';
@@ -12,34 +10,43 @@ import Reflux from 'reflux';
 import { PlayingStore } from '../../controller/stores/PlayingStore';
 import { NewsStore } from '../../controller/stores/NewsStore';
 import { CelebsStore } from '../../controller/stores/CelebStore';
+import { BoxOfficeStore } from '../../controller/stores/BoxOfficeStore';
+import NowPlaying from './NowPlaying';
 
 
 export default class FilmListesi extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.stores = [PlayingStore, NewsStore, CelebsStore];
+        this.stores = [PlayingStore, NewsStore, CelebsStore, BoxOfficeStore];
     }
 
     render() {
         return (
-            <div style={{ marginTop: 10, marginLeft: '3%', marginRight: '3%' }} className="w-screen">
+            <div style={{ margin: '3%' }} className="w-screen">
                 <Container fluid>
                     <Row>
-                        <ContentContainer title="Trending of this week">
-                            {this.state.playing ? <CardList list={this.state.playing} poster_link={Poster_Link} /> : <div></div>}
-                            {/* console.log(this.state.playing) */}
-                        </ContentContainer>
+                        <Col sm={12} md={8} lg={9}>
+                            <ContentContainer title="Trending of this week">
+                                {this.state.playing ? <CardList list={this.state.playing} /> : <div></div>}
+                                {/* console.log(this.state.playing) */}
+                            </ContentContainer>
+
+                            <ContentContainer title="Upcoming">
+                                {this.state.news ? <CardList list={this.state.news} /> : <div></div>}
+                            </ContentContainer>
+
+                            <ContentContainer title="Popular Celebs of this week" style={{ height: 700 }}>
+                                {this.state.celebs ? <CelebList list={this.state.celebs} /> : <div></div>}
+                            </ContentContainer>
+                        </Col>
+                        <Col>
+                            {this.state.boxOffice ? <NowPlaying boxOfficeData={this.state.boxOffice}/> : <div></div>}
+                            {/* {this.state.news ? <CardList list={this.state.news} /> : <div></div>} */}
+                            
+                        </Col>
                     </Row>
-                    <Row>
-                        <ContentContainer title="Upcoming">
-                            {this.state.news ? <CardList list={this.state.news} poster_link={Poster_Link} /> : <div></div>}
-                        </ContentContainer>
-                    </Row>
-                    <Row>
-                        <ContentContainer title="Popular Celebs of this week" style={{height: 700}}>
-                            {this.state.celebs ? <CelebList list={this.state.celebs} poster_link={Poster_Link} /> : <div></div>}
-                        </ContentContainer>
-                    </Row>
+
+
                 </Container>
                 <Footer />
             </div>

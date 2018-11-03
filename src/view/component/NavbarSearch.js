@@ -17,10 +17,10 @@ export default class Example extends React.Component {
 
     render() {
         return (
-            <div>
-                <InputGroup style={{width:280}}>
+            <div style={{ width: '100%', minWidth:280 }}>
+                <InputGroup size="sm" style={{ width: '100%', height:'40%' }}>
                     <Input placeholder="Find Movies"/>
-                    <InputGroupAddon addonType="append"><Button className="button" color="success"></Button></InputGroupAddon>
+                    <InputGroupAddon addonType="append"><Button className="button" color="info"></Button></InputGroupAddon>
                     
                 </InputGroup>
             </div>

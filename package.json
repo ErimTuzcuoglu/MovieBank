@@ -14,7 +14,8 @@
     "react-scripts": "2.0.4",
     "react-star-ratings": "^2.3.0",
     "reactstrap": "^6.5.0",
-    "reflux": "^6.4.1"
+    "reflux": "^6.4.1",
+    "tiny-slider-react": "^0.3.7"
   },
   "scripts": {
     "start": "react-scripts start",

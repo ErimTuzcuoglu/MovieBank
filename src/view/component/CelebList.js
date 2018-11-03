@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import UnknownProfile from '../image/unknown-profile.jpg';
+import { Poster_Link } from './../../controller/utils/Api';
 import $ from 'jquery';
 
 export default class FilmListesi extends Component {
@@ -18,20 +19,24 @@ export default class FilmListesi extends Component {
     mapTheCards(cards) {
         return (
             cards.map((card) =>
-                <Col sm={4} md={3} lg={3} xl={2} xxl={1} className="mb-0" style={{ marginRight: 40 }}>
+                <Col xs={12} sm={8} md={6} lg={3} xl={2} className="mb-0" style={{ marginRight: '8%' }}>
                     <Card style={styles.cardStyle}>
-                        <Link to={{ pathname: "/details", state: { card: card, poster_link: this.props.poster_link } }}>
-                            <CardImg width={'100%'} src={(card.profile_path) ? (this.props.poster_link + card.profile_path) : UnknownProfile} />
-                        
-                        <CardBlock style={{ border: '1px solid #d6d7da' }}>
+                        <Link to={{
+                            pathname: "/celeb-detail",
+                            search: "?id:" + card.id,
+                            //state: { card: card, }
+                        }}>
+                            <CardImg style={{ width: '100%', minHeight: 300 }} src={(card.profile_path) ? (Poster_Link + card.profile_path) : UnknownProfile} />
+
+                            <CardBlock style={{ border: '1px solid #d6d7da' }}>
                                 <CardTitle style={styles.nameStyle}><b>{card.name}</b></CardTitle>
-                        </CardBlock>
-                        <CardSubtitle style={styles.subtitleStyle}>
-                            <div style={styles.bottomStyle}>
-                                <CardText>Popularity <Badge color="info" pill style={{ marginLeft: 50 }}>{card.popularity}</Badge></CardText>
-                                
-                            </div>
-                        </CardSubtitle>
+                            </CardBlock>
+                            <CardSubtitle style={styles.subtitleStyle}>
+                                <div style={styles.bottomStyle}>
+                                    <CardText>Popularity <Badge color="info" pill style={{ marginLeft: 20 }}>{card.popularity}</Badge></CardText>
+
+                                </div>
+                            </CardSubtitle>
                         </Link>
                     </Card>
                 </Col>
@@ -53,13 +58,14 @@ export default class FilmListesi extends Component {
 const styles = {
     cardStyle: {
         backgroundColor: '#ffffff',
-        minWidth: 230,
-        minHeight: 150,
+        minWidth: 200,
+        minHeight: 113,
         width: '100%',
         border: '1px solid #d6d7da',
     },
     nameStyle: {
-        color: '#000000',
+        color: '#636363',
+        fontWeight: 'bold',
         fontSize: 18,
         minHeight: 42,
     },
