@@ -6,6 +6,7 @@ export var actions = Reflux.createActions([
     'getPlayings',
     'getCelebDetails',
     'getFilmDetails',
+    'getFilmCredits',
     'getVideos',
     'getBoxOffice',
 ]);
@@ -15,5 +16,6 @@ actions.getNews();
 actions.getCelebs();
 actions.getCelebDetails();
 actions.getFilmDetails();
+actions.getFilmCredits();
 actions.getVideos();
 actions.getBoxOffice();

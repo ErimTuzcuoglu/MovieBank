@@ -30,14 +30,8 @@ export default class StarRating extends Component {
         this.props.sendRate(newRating);
     }
 
-    render() {
-        return (
-            <UncontrolledDropdown direction="down" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} style={{ float: 'left' }}>
-                <DropdownToggle size="sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0)', border: 0 }}>
-                    <div className="dropdownStyle"></div>
-                </DropdownToggle>
-                <DropdownMenu down style={{ backgroundColor: '#fcfcfc', borderWidth: 2, width: 215, padding: 5 }}>
-                    <StarRatings
+    stars(){
+        return  <StarRatings
                         style={{ float: 'left' }}
                         starDimension={'20px'}
                         starSpacing={'0px'}
@@ -47,8 +41,21 @@ export default class StarRating extends Component {
                         name='rating'
                         changeRating={this.changeRating}
                         numberOfStars={10}
-                    />
-                </DropdownMenu>
+                    />;
+    }
+
+    render() {
+        return (
+            <UncontrolledDropdown direction="down" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} style={{ float: 'left' }}>
+                {this.props.background ? 
+                <div>
+                <DropdownToggle size="sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0)', border: 0 }}>
+                    <div className="dropdownStyle"></div>
+                </DropdownToggle> 
+                <DropdownMenu down style={{ backgroundColor: '#fcfcfc', borderWidth: 2, width: 215, padding: 5 }}>
+                   this.stars()
+                </DropdownMenu></div>
+                 : ""}
             </UncontrolledDropdown>
         );
     }

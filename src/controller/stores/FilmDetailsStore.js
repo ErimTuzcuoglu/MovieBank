@@ -6,7 +6,7 @@ export class FilmDetailsStore extends Reflux.Store {
 
     constructor() {
         super();
-        this.state = { film_details: null, videos: null };
+        this.state = { film_details: null, videos: null, credits: null };
         this.listenToMany(actions);
         // actions.getFilmDetails.listen(this.getFilmDetails())
     }
@@ -16,6 +16,14 @@ export class FilmDetailsStore extends Reflux.Store {
         Fetch('movie/'+ id).then(function (response) {
             const film_details = response.data;
             this.setState({ film_details });
+        }.bind(this))
+        // console.log(this.state.playing + "psa")
+    }
+
+    getFilmCredits(id) {
+        Fetch('movie/' + id + '/credits').then(function (response) {
+            const credits = response.data;
+            this.setState({ credits });
         }.bind(this))
         // console.log(this.state.playing + "psa")
     }

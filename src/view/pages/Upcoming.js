@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Reflux from 'reflux';
 import NavigationBar from '../component/NavigationBar';
-import List from '../component/List';
+import TableListMovie from '../component/TableListMovie';
 import NowPlaying from '../component/NowPlaying';
 import Footer from '../component/Footer';
 import { NewsStore } from '../../controller/stores/NewsStore';
@@ -25,7 +25,7 @@ export default class Upcoming extends Reflux.Component {
                     <Row>
                         <Col sm={12} md={8} lg={9} style={{ marginBottom: '5%' }}>
                             <h3 align="center">Upcoming</h3>
-                            {this.state.news ? <List films={this.state.news} /> : <div></div>}
+                            {this.state.news ? <TableListMovie films={this.state.news} /> : <div></div>}
                         </Col>
                         <Col>
                             {this.state.boxOffice ? <NowPlaying boxOfficeData={this.state.boxOffice} /> : <div></div>}

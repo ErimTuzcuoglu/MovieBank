@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Poster_Link } from './../../controller/utils/Api';
 
 export default class NowPlaying extends Component {
+    
     render() {
         return (
             <div>
@@ -26,7 +27,7 @@ export default class NowPlaying extends Component {
                             <tr>
                                 <th style={{ width: '10%' }}>{index + 1}</th>
                                 <th style={{ width: '10%' }}>{(film.poster_path) ?
-                                    <Media object src={Poster_Link + film.poster_path} alt="No Poster" style={{ maxHeight: 80 }} /> : <div></div>}
+                                    <Media object src={Poster_Link + film.poster_path} alt="No Poster" style={{ maxHeight: 80 }}/> : ""}
                                 </th>
                                 <th style={{ width: '50%' }}>
                                     <Link to={{

@@ -12,15 +12,20 @@ export class CelebsStore extends Reflux.Store {
     }
 
 
-    getCelebs() {
-        Fetch('trending/person/week').then(function (response) {
-            this.setState({ celebs: response.data.results });
-            //console.log(response);
-        }.bind(this))
+    async getCelebs() {
+        const results = [];
+        for (let i = 1; i < 6; i++) {
+            await Fetch('trending/person/week', "&page=" + i).then(function (response) {
+                results.push(response.data.results);
+                //console.log(response);
+            }.bind(this))
+        }
+        var merged = [].concat.apply([], results);
+        await this.setState({ celebs: merged });
     }
 
     getCelebDetails(id) {
-        Fetch('person/'+ id).then(function (response) {
+        Fetch('person/' + id).then(function (response) {
             const celebDetails = response.data;
             this.setState({ celebDetails });
         }.bind(this))

@@ -55,15 +55,11 @@ class NavigationBar extends Component {
                                         Upcoming
                                     </Link>
                                 </NavItem>
-                                <UncontrolledDropdown nav inNavbar>
-                                    <DropdownToggle style={styles.navbarTextStyle} /*nav*/ caret>Options</DropdownToggle>
-                                    <DropdownMenu right>
-                                        <DropdownItem>Option 1</DropdownItem>
-                                        <DropdownItem>Option 2</DropdownItem>
-                                        <DropdownItem divider />
-                                        <DropdownItem>Reset</DropdownItem>
-                                    </DropdownMenu>
-                                </UncontrolledDropdown>
+                                <NavItem style={styles.navbarTextStyle}>
+                                    <Link to={{ pathname: "/popular-celebs", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
+                                        Popular Celebs
+                                    </Link>
+                                </NavItem>
                                 <Nav className="ml-auto">
                                     <NavItem>
                                         {/* <NavLink href="/components/" >Kaydol/Giriş Yap</NavLink> */}
