@@ -24,7 +24,7 @@ export default class FilmListesi extends Component {
         return (
             cards.slice(0, 4).map((card) =>
                 <Col xs={12} sm={8} md={6} lg={3} xl={12} className="mb-0">
-                    <Card style={styles.cardStyle}>
+                    <Card style={styles.cardStyle} style={{ minHeight:260 }}>
                         <Link to={{
                             pathname: "/celeb-detail",
                             search: "?id:" + card.id,
@@ -40,13 +40,13 @@ export default class FilmListesi extends Component {
                             </Link>
                             {/* <CardBlock style={{ border: '1px solid #d6d7da' }}>
                             </CardBlock> */}
-                            <CardSubtitle style={styles.subtitleStyle}>
+                            {/* <CardSubtitle style={styles.subtitleStyle}>
                                 <div style={styles.bottomStyle}>
                                 <CardText style={{ color: '#3f6cb5', float: 'left'}}>Popularity </CardText> 
-                                <Badge color="info" pill style={{ float: 'right' }}>{card.popularity}</Badge>
-
+                                <Badge color="info" pill style={{ float: 'right' }}>{card.popularity}</Badge> 
+                                
                                 </div>
-                            </CardSubtitle>
+                            </CardSubtitle> */}
                         
                     </Card>
                 </Col>

@@ -5,6 +5,8 @@ import {
     Container, Card,
     CardImg,
     CardBlock,
+    CardBody,
+    CardSubtitle,
     CardTitle,
     CardText,
     Button,
@@ -19,6 +21,7 @@ import { FilmDetailsStore } from '../../controller/stores/FilmDetailsStore';
 import { BoxOfficeStore } from '../../controller/stores/BoxOfficeStore';
 import { actions } from '../../actions';
 import { Poster_Link } from '../../controller/utils/Api';
+import UnknownProfile from '../image/unknown-profile.jpg';
 import '../css/DetailsPage.css';
 import NowPlaying from '../component/NowPlaying';
 import StarRating from '../component/StarRating';
@@ -26,7 +29,7 @@ import StarRating from '../component/StarRating';
 export default class DetailsFilm extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.state = { rating: "0" };
+        this.state = { rating: "0", showMoreButtonVisiblity: true };
         this.giveRate = this.giveRate.bind(this);
         actions.getFilmDetails(this.props.location.search.split(":")[1]);
         actions.getFilmCredits(this.props.location.search.split(":")[1]);
@@ -51,6 +54,64 @@ export default class DetailsFilm extends Reflux.Component {
         this.setState({
             rating: newRating
         });
+    }
+
+    renderCredits(film_details) {
+        let cast = "";
+
+        if (this.state.credits) {
+            cast = (this.state.credits.cast.map((data) =>
+                <Link to={{ pathname: "/celeb-detail", search: "?id:" + data.id, }} style={{ textDecoration: 'none' }}>
+                    <Card style={{ width: 120, margin: 3 }}>
+                        <CardImg top width="100%" style={{ height: 177 }} src={
+                            (data.profile_path ? Poster_Link + data.profile_path : UnknownProfile)} alt="Photo" />
+                        <CardBody style={{ padding: 10, minHeight: 80 }}>
+                            <CardTitle style={{ fontSize: 12 }}>{data.name}</CardTitle>
+                            <CardSubtitle style={{ fontSize: 10 }}>Role: {data.character}</CardSubtitle>
+                        </CardBody>
+                    </Card>
+                </Link>))
+        }
+
+        return (
+            <CardText className="overviewStyle">
+                <hr /><h5>Overview</h5>
+                {film_details.overview}
+                <hr /><h5>Cast</h5>
+                <Row>
+                    {cast.slice(0, 10)}
+                    {this.state.showMoreButtonVisiblity ?
+                        <Button color="link" style={{ textDecoration: 'none' }} onClick={() => this.setState({ showMoreButtonVisiblity: false })}>Show More</Button>
+                        : cast.slice(10)}
+                </Row>
+                <h5>Crew</h5>
+                {this.state.credits ? this.state.credits.crew.map((data) =>
+                    <Link to={{
+                        pathname: "/celeb-detail",
+                        search: "?id:" + data.id,
+                        //state: { card: card, }
+                    }}> {data.name + " (" + data.job + "), "}
+                    </Link>) : ""}
+            </CardText>
+        )
+    }
+
+    renderBottomButtons(film_details) {
+        return (
+            <CardBlock >
+                <Link to={{
+                    pathname: "/comment-page",
+                    search: ("?id:" + film_details.id), //"?film=" + card.title.replace(" ", "-")+ ""
+                    //state: { id: card.id },
+                }}>
+                    <Button color="secondary" style={{ margin: 5 }}>
+                        Comments
+                        </Button>
+                </Link>
+                <Button color="success" style={{ margin: 5 }}>I watched</Button>
+                <Button color="primary">I will watch</Button>
+            </CardBlock>
+        )
     }
 
     renderContent() {
@@ -83,7 +144,7 @@ export default class DetailsFilm extends Reflux.Component {
                         <div style={{ float: 'left', width: '25%', }}>
                             <CardImg className="imgStyle" width={'100%'} src={Poster_Link + film_details.poster_path} />
                             <div className="bottomStyle">
-                                <StarRating sendRate={this.giveRate} background={true}/>
+                                <StarRating sendRate={this.giveRate} collapse={true} />
                                 <Badge color="info" pill style={{ float: 'right', marginTop: '10%' }}>{this.state.rating} / 10</Badge>
                             </div>
                         </div>
@@ -97,43 +158,9 @@ export default class DetailsFilm extends Reflux.Component {
                     </div>
                 </CardBlock>
                 <CardBlock>
-                    <CardText className="overviewStyle">
-                        <hr /><h4>Overview</h4>
-                        {film_details.overview}
-
-                        <hr /><h4>Full Cast / Credits</h4>
-                        {this.state.credits ? this.state.credits.cast.map((data) =>
-                            <Link to={{
-                                pathname: "/celeb-detail",
-                                search: "?id:" + data.id,
-                                //state: { card: card, }
-                            }}>{data.name
-
-                                + " (" + data.character + "), "}</Link>) : ""}
-
-                        {this.state.credits ? this.state.credits.crew.map((data) =>
-                            <Link to={{
-                                pathname: "/celeb-detail",
-                                search: "?id:" + data.id,
-                                //state: { card: card, }
-                            }}> {data.name
-
-                                + " (" + data.job + "), "}</Link>) : ""}
-                    </CardText>
+                    {this.renderCredits(film_details)}
                 </CardBlock>
-                <CardBlock >
-                    <Link to={{
-                        pathname: "/comment-page",
-                        search: ("?id:" + film_details.id), //"?film=" + card.title.replace(" ", "-")+ ""
-                        //state: { id: card.id },
-                    }}>
-                        <Button color="secondary" style={{ margin: 5 }}>
-                            Comments
-                        </Button>
-                    </Link>
-                    <Button color="success" style={{ margin: 5 }}>I watched</Button>
-                    <Button color="primary">I will watch</Button>
-                </CardBlock>
+                {this.renderBottomButtons(film_details)}
                 {/* <CardSubtitle className="subtitleStyle"></CardSubtitle> */}
             </Card>
         )
