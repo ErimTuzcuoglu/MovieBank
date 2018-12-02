@@ -6,21 +6,19 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
+    Button
 } from 'reactstrap';
 import { BrowserRouter as Router, Link, Redirect } from "react-router-dom";
 import NavbarArama from './NavbarSearch';
 import logo from '../image/logo.png';
 import LoginDropdown from './LoginDropdown';
+import FacebookButton from './FacebookButton';
 
-class NavigationBar extends Component {
+export default class NavigationBar extends Component {
     constructor(props) {
         super(props);
         this.collapseToggleNavbar = this.collapseToggleNavbar.bind(this);
+        this.facebookLoginRender = this.facebookLoginRender.bind(this);
         this.state = { collapseNavbar: false, };
     }
 
@@ -30,7 +28,22 @@ class NavigationBar extends Component {
         });
     }
 
+    facebookLoginRender(loginData) {
+        return (
+            <div>
+                <Link to={{ pathname: "/popular-celebs", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
+                    Hoşgeldiniz  {loginData.name} 
+                </Link>
+                <FacebookButton logSelect={false} />
+            </div>
+        )
+    }
+
     render() {
+        const loginData = localStorage.getItem("loginData") ? JSON.parse(localStorage.getItem("loginData")) : null;
+        //localStorage.clear();
+        //console.log(loginData)
+
         return (
             <div>
                 <Navbar color="dark" dark expand="md">
@@ -42,9 +55,6 @@ class NavigationBar extends Component {
                         <div style={{ width: '95%' }}>
                             <NavbarArama />
                             <Nav className="mr-auto" style={{ height: '50%', width: '100%', marginTop: 5 }} navbar>  {/*sağa almak için ml-auto*/}
-                                <NavItem>
-                                    <NavLink href="/components/" style={styles.navbarTextStyle}>Top 10</NavLink>
-                                </NavItem>
                                 <NavItem style={styles.navbarTextStyle}>
                                     <Link to={{ pathname: "/trends", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
                                         Weekly Trends
@@ -62,8 +72,10 @@ class NavigationBar extends Component {
                                 </NavItem>
                                 <Nav className="ml-auto">
                                     <NavItem>
-                                        {/* <NavLink href="/components/" >Kaydol/Giriş Yap</NavLink> */}
-                                        <LoginDropdown navbarTextStyle={styles.navbarTextStyle} />
+                                        {loginData ?
+                                            this.facebookLoginRender(loginData)
+                                            :
+                                            <LoginDropdown navbarTextStyle={styles.navbarTextStyle} />}
                                     </NavItem>
                                 </Nav>
                             </Nav>
@@ -86,7 +98,5 @@ const styles = {
     linkStyle: {
         color: '#ffffff',
     },
-    
-}
 
-export default NavigationBar;
+}

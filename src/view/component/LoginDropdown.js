@@ -8,13 +8,16 @@ import {
     Button,
 } from 'reactstrap';
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import FacebookButton from './FacebookButton';
+import GoogleLogin from 'react-google-login';
 
 export default class LoginDropdown extends Component {
 
     constructor(props) {
         super(props);
         this.toggleDropdown = this.toggleDropdown.bind(this);
-        this.state = { dropdownOpen: false, };
+        this.responseGoogle = this.responseGoogle.bind(this);
+        this.state = { dropdownOpen: false };
     }
 
     toggleDropdown() {
@@ -23,10 +26,16 @@ export default class LoginDropdown extends Component {
         });
     }
 
+    responseGoogle(response) {
+        console.log(response);
+    }
+
+
     render() {
+        const fbData = localStorage.getItem("loginData");
         return (
-            <UncontrolledDropdown direction="down" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} style={this.props.navbarTextStyle} style={{marginTop:5,}}>
-                <DropdownToggle size="sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0)', border:0, }}>
+            <UncontrolledDropdown direction="down" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} style={this.props.navbarTextStyle} style={{ marginTop: 5, }}>
+                <DropdownToggle size="sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0)', border: 0, }}>
                     Sign Up / Login
                 </DropdownToggle>
                 <DropdownMenu style={styles.dropdownStyle} right>
@@ -38,8 +47,15 @@ export default class LoginDropdown extends Component {
                     <Button size="sm" color="success" style={styles.style}>Login</Button>
                     <Button size="sm" color="secondary" style={styles.style}>I forgot my password</Button>
                     <DropdownItem divider />
-                    <Button size="sm" color="primary" style={styles.style}>Login With Facebook</Button>
-                    <Button size="sm" color="danger" style={styles.style}>Login With Google</Button>
+                    {fbData ? "" : <FacebookButton logSelect={true} />}
+                    <GoogleLogin
+                        clientId="" //CLIENTID NOT CREATED YET
+                        buttonText="LOGIN WITH GOOGLE"
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responseGoogle}
+                    />
+                    {/*  
+                    <Button size="sm" color="danger" style={styles.style}>Login With Google</Button> */}
                     <DropdownItem divider />
                     <Link to={{
                         pathname: "/signup",

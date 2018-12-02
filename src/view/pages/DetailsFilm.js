@@ -67,7 +67,7 @@ export default class DetailsFilm extends Reflux.Component {
                             (data.profile_path ? Poster_Link + data.profile_path : UnknownProfile)} alt="Photo" />
                         <CardBody style={{ padding: 10, minHeight: 80 }}>
                             <CardTitle style={{ fontSize: 12 }}>{data.name}</CardTitle>
-                            <CardSubtitle style={{ fontSize: 10 }}>Role: {data.character}</CardSubtitle>
+                            <CardSubtitle style={{ fontSize: 10, color:"#000000" }}>{data.character}</CardSubtitle>
                         </CardBody>
                     </Card>
                 </Link>))
@@ -108,8 +108,8 @@ export default class DetailsFilm extends Reflux.Component {
                         Comments
                         </Button>
                 </Link>
-                <Button color="success" style={{ margin: 5 }}>I watched</Button>
-                <Button color="primary">I will watch</Button>
+                <Button color="success" style={{ margin: 5 }}>Watchlist</Button>
+                <Button color="primary">Watch Later</Button>
             </CardBlock>
         )
     }

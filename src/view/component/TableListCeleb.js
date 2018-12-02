@@ -11,7 +11,17 @@ export default class TableListCeleb extends Component {
     celebKnownMap(films) {
         let data = [];
         films.map(film => 
-            film.original_title ? data.push(film.original_title) : ""
+            film.original_title ? data.push(
+                <Link to={{
+                    pathname: "/film-detail",
+                    search: "?id:" + film.id,
+                    //state: { card: card, }
+                }}>
+                   {film.original_title}
+                </Link>
+                
+                
+                ) : ""
             )
         for(let i = 0 ; i < data.length; i++){
             data[i] = <p>⚫ {data[i]}</p> ;

@@ -19,7 +19,7 @@ export default class NowPlaying extends Component {
                                 pathname: "/film-detail",
                                 search: "?id:" + film.id,
                                 //state: { card: card, }
-                            }}>
+                            }} onClick={this.forceUpdate}>
                             <p style={style.titleStyle}>{film.title}</p>
                             </Link>
                         </Row>

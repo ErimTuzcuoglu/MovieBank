@@ -20,13 +20,13 @@ export default class CommentBox extends React.Component {
                 <FormGroup row>
                     <Label for="title" sm={2}><b>Title:</b></Label>
                     <Col sm={10}>
-                        <Input type="text" name="title" id="title" placeholder="Title" />
+                        <Input type="text" name="title" id="title" placeholder="Write a title for your review." />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="message" sm={2}><b>Message:</b></Label>
+                    <Label for="Review" sm={2}><b>Review:</b></Label>
                     <Col sm={10}>
-                        <Input type="textarea" name="message" id="message" />
+                        <Input type="textarea" name="Review" id="Review" placeholder="Write your review here." />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
