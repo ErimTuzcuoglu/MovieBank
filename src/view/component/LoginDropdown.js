@@ -9,14 +9,13 @@ import {
 } from 'reactstrap';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import FacebookButton from './FacebookButton';
-import GoogleLogin from 'react-google-login';
+import GoogleButton  from './GoogleButton';
 
 export default class LoginDropdown extends Component {
 
     constructor(props) {
         super(props);
         this.toggleDropdown = this.toggleDropdown.bind(this);
-        this.responseGoogle = this.responseGoogle.bind(this);
         this.state = { dropdownOpen: false };
     }
 
@@ -26,13 +25,8 @@ export default class LoginDropdown extends Component {
         });
     }
 
-    responseGoogle(response) {
-        console.log(response);
-    }
-
-
     render() {
-        const fbData = localStorage.getItem("loginData");
+
         return (
             <UncontrolledDropdown direction="down" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} style={this.props.navbarTextStyle} style={{ marginTop: 5, }}>
                 <DropdownToggle size="sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0)', border: 0, }}>
@@ -47,15 +41,11 @@ export default class LoginDropdown extends Component {
                     <Button size="sm" color="success" style={styles.style}>Login</Button>
                     <Button size="sm" color="secondary" style={styles.style}>I forgot my password</Button>
                     <DropdownItem divider />
-                    {fbData ? "" : <FacebookButton logSelect={true} />}
-                    <GoogleLogin
-                        clientId="" //CLIENTID NOT CREATED YET
-                        buttonText="LOGIN WITH GOOGLE"
-                        onSuccess={this.responseGoogle}
-                        onFailure={this.responseGoogle}
-                    />
-                    {/*  
-                    <Button size="sm" color="danger" style={styles.style}>Login With Google</Button> */}
+                    
+                    <FacebookButton />
+                    <div style={styles.style}/>
+                    <GoogleButton />
+
                     <DropdownItem divider />
                     <Link to={{
                         pathname: "/signup",
@@ -71,11 +61,11 @@ export default class LoginDropdown extends Component {
 const styles = {
     style: {
         width: '100%',
-        marginTop: 5,
+        marginTop: 7,
     },
     dropdownStyle: {
         padding: 20,
-        minWidth: 250,
+        minWidth: 260,
         backgroundColor: '#f7f7f7',
     }
 }

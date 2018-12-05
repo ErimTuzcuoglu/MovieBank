@@ -10,36 +10,44 @@ export default class FacebookButton extends Component {
         this.logoutFacebook = this.logoutFacebook.bind(this);
     }
 
-    static FB = window.FB;
-
     loginFacebook(response) {
-        //console.log(response);
-        if (response.status != "unknown") {
-            localStorage.setItem("loginData", JSON.stringify(response));
-            FacebookButton.FB = window.FB;
+        // console.log(response);
+        if (response.id != (null || "" || undefined)) {
+
+            const logData = {
+                name: response.name.substring(0, response.name.lastIndexOf(" ")),
+                surname: response.name.substring(response.name.lastIndexOf(" ")+1),
+                username: response.name,
+                password: /*'Facebook' + */response.id,
+                password_confirm: /*'Facebook' + */response.id,
+                email: response.email
+            }
+            // console.log(logData);
+
+            localStorage.setItem("loginData", JSON.stringify(logData));
+            this.logoutFacebook(); 
+            //Daha sonradan logout olunamadığı için facebook bilgilerini bir üst satırda localstorage ile kaydedip,
+            //burada facebooktan çıkış yapılıyor. (logout olmak için FacebookButtondan bir tane üretilmeli yada aynı
+            //sayfa içinde login logout olmalı)
+            window.location.reload(false); //Sayfayı yenilettiriyoruz.
         }
     }
     logoutFacebook() {
-        localStorage.clear();
-        //window.FB.logout();
-        FacebookButton.FB.logout();
-        //localStorage.removeItem("loginData")
+        window.FB.logout();
     }
 
     render() {
         return (
-            <div>
-                {this.props.logSelect ? 
+            <div> 
                 <FacebookLogin
                     appId="872171269654927" //APP ID NOT CREATED YET
                     fields="name,email,picture"
                     callback={this.loginFacebook}
-                    autoLoad={true}
+                    autoLoad={false}
                     version="3.1"
                     render={renderProps => (
                         <Button size="sm" onClick={renderProps.onClick} style={{ ...styles.style, ...styles.FbButtonStyle }}>Continue With Facebook</Button>
-                    )}
-                    /> : <Button color="link" size="sm" onClick={this.logoutFacebook}>Logout</Button>}
+                    )} />
             </div>
         );
     }

@@ -12,13 +12,13 @@ import { BrowserRouter as Router, Link, Redirect } from "react-router-dom";
 import NavbarArama from './NavbarSearch';
 import logo from '../image/logo.png';
 import LoginDropdown from './LoginDropdown';
-import FacebookButton from './FacebookButton';
+import logout from '../image/logout.png';
 
 export default class NavigationBar extends Component {
     constructor(props) {
         super(props);
         this.collapseToggleNavbar = this.collapseToggleNavbar.bind(this);
-        this.facebookLoginRender = this.facebookLoginRender.bind(this);
+        this.loginRender = this.loginRender.bind(this);
         this.state = { collapseNavbar: false, };
     }
 
@@ -28,20 +28,22 @@ export default class NavigationBar extends Component {
         });
     }
 
-    facebookLoginRender(loginData) {
+    loginRender(loginData) {
         return (
-            <div>
+            <div style={{ padding: 8 }}>
                 <Link to={{ pathname: "/popular-celebs", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
-                    Hoşgeldiniz  {loginData.name} 
-                </Link>
-                <FacebookButton logSelect={false} />
+                    Welcome  {loginData.username} 
+                </Link>&emsp;
+                <Button color="link" style={styles.logoutButtonStyle} size="sm" onClick={() => {
+                    localStorage.clear();
+                    window.location.reload(false);
+                }}></Button>
             </div>
         )
     }
 
     render() {
         const loginData = localStorage.getItem("loginData") ? JSON.parse(localStorage.getItem("loginData")) : null;
-        //localStorage.clear();
         //console.log(loginData)
 
         return (
@@ -72,8 +74,9 @@ export default class NavigationBar extends Component {
                                 </NavItem>
                                 <Nav className="ml-auto">
                                     <NavItem>
+
                                         {loginData ?
-                                            this.facebookLoginRender(loginData)
+                                            this.loginRender(loginData)
                                             :
                                             <LoginDropdown navbarTextStyle={styles.navbarTextStyle} />}
                                     </NavItem>
@@ -89,6 +92,13 @@ export default class NavigationBar extends Component {
 }
 
 const styles = {
+    logoutButtonStyle: {
+        backgroundImage: "url(" + logout + ")",
+        backgroundSize: 20,
+        height: 25,
+        width: 25,
+        backgroundRepeat: 'no-repeat'
+    },
     navbarTextStyle: {
         fontSize: 15,
         backgroundColor: 'rgba(0, 0, 0, 0)',
