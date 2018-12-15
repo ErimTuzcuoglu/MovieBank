@@ -6,6 +6,8 @@ import {
     InputGroupAddon,
 } from 'reactstrap';
 import NavigationBar from '../component/NavigationBar';
+import Footer from '../component/Footer';
+
 
 export default class SignUp extends Component {
 
@@ -46,6 +48,7 @@ export default class SignUp extends Component {
                     </InputGroup>
                     <Button size="sm" color="success" style={styles.style}>Sign Up</Button>
                 </div>
+                <Footer/>
             </div>
         );
     }

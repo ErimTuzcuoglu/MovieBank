@@ -21,7 +21,7 @@ export default class FilmListesi extends Component {
 
     mapTheCards(cards) {
         return (
-            cards.slice(0, 4).map((card) =>
+            cards.slice(0, this.props.items).map((card) =>
                 <Col xs={12} sm={8} md={6} lg={3} xl={12} className="mb-0">
                     <Card style={styles.cardStyle}>
                         <Link to={{

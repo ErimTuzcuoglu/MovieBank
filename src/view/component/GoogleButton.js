@@ -46,19 +46,19 @@ export default class GoogleButton extends Component {
                     buttonText="Continue With Google"
                     onSuccess={this.responseGoogle}
                     onFailure={this.responseGoogle}
-                    style={{ height: 100 }}
+                    render={renderProps => (
+                        <Button size="sm" onClick={renderProps.onClick} style={styles.style}>Continue With Google</Button>
+                    )}
                 />
-                {/*  
-                    <Button size="sm" color="danger" style={styles.style}>Login With Google</Button> */}
             </div>
         );
     }
 }
 
 
-/*const styles = {
+const styles = {
     style: {
         width: '100%',
-        marginTop: 5,
+        backgroundColor: '#d34836'
     },
-}*/
+}

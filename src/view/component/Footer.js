@@ -8,7 +8,11 @@ export default class Footer extends Component {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                marginTop: 30,
+                backgroundColor: '#343a40',
+                height: 80,
+                marginBottom: -30,
+                color: 'white'
+                // margin: 30
  }}>
                     Movie Bank bir SpartaCoders girişimidir. Her Hakkı Saklıdır. Movie Bank©
             </div>

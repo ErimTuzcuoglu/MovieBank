@@ -3,41 +3,55 @@ import { Container, Row, Col } from 'reactstrap';
 import Reflux from 'reflux';
 import NavigationBar from '../component/NavigationBar';
 import TableListMovie from '../component/TableListMovie';
+import TableListCeleb from '../component/TableListCeleb';
+import TableListTv from '../component/TableListTv';
 import NowPlaying from '../component/NowPlaying';
 import Footer from '../component/Footer';
-import { Fetch } from '../../controller/utils/Api';
+import { actions } from '../../actions';
 import { BoxOfficeStore } from '../../controller/stores/BoxOfficeStore';
+import { SearchResultsStore } from '../../controller/stores/SearchResultsStore';
 
 export default class SearchResults extends Reflux.Component {
 
     constructor(props) {
         super(props);
-        this.state = { searchText: "", searchResults: "" };
-        this.stores = [BoxOfficeStore];
-        this.search = this.search.bind(this);
+        this.state = { searchQuery: "" };
+        this.stores = [BoxOfficeStore, SearchResultsStore];
         this.trigger = this.trigger.bind(this);
+        this.renderAsType = this.renderAsType.bind(this);
         // console.log(this.props.location.state.results)
         this.trigger();
     }
 
-    trigger(){
-        this.setState({ searchText: this.props.location.search.split(":")[1] });
-        this.search(this.props.location.search.split(":")[1]);
+    trigger() {
+        var search = this.props.location.search.split(":")[1];
+        search = search.substring(0, search.lastIndexOf("&"));
+
+        this.setState({ searchQuery: this.props.location.search });
+        this.renderAsType(search);
+        //this.search(this.props.location.search.split(":")[1]);
     }
-    // Arama sonuçlarını axios ile istek gönderip alan fonksiyon.
-    async search(searchText){
-        const results = [];
-        for (let i = 1; i < 6; i++) {
-            await Fetch('search/movie', "&page=" + i + "&query=" + searchText).then(function (response) {
-                results.push(response.data.results);
-            }.bind(this))
+
+    renderAsType(searchText) {
+        var type = this.props.location.search.split(":")[2]
+        if (type == "All") {
+            actions.getMultiResults(searchText);
+        } else if (type == "Movies") {
+            actions.getMovieResults(searchText);
+            this.setState({ personResults: '', tvResults: '' })
+        } else if (type == "People") {
+            actions.getPersonResults(searchText);
+            this.setState({ movieResults: '', tvResults: '' })
+        } else if (type == "Tv") {
+            actions.getTvResults(searchText);
+            this.setState({ movieResults: '', personResults: '' })
         }
-        var merged = [].concat.apply([], results);
-        await this.setState({ searchResults: merged });
     }
 
     render() {
         document.title = "Search Results - MovieBank";
+
+        var search = this.props.location.search;
         return (
             <div>
                 <div><NavigationBar /></div>
@@ -46,8 +60,23 @@ export default class SearchResults extends Reflux.Component {
                     <Row>
                         <Col sm={12} md={8} lg={9} style={{ marginBottom: '5%' }}>
                             <h3 align="center">Search Results</h3>
-                            {(this.state.searchText != this.props.location.search.split(":")[1]) ? this.trigger() : ""}
-                            {this.state.searchResults.length ? <TableListMovie films={this.state.searchResults} /> : <div align="center">There is nothing found in this keyword :(</div>}
+                            {(this.state.searchQuery != search) ? this.trigger() : ""}
+                            {this.state.movieResults.length ?
+                                <div>
+                                    <h3>Movies</h3>
+                                    <TableListMovie films={this.state.movieResults} />
+                                </div> : ""}
+                            {this.state.personResults.length ?
+                                <div>
+                                    <h3>People</h3>
+                                    <TableListCeleb celebs={this.state.personResults} />
+                                </div> : ""}
+                            {this.state.tvResults.length ?
+                                <div>
+                                    <h3>Tv</h3>
+                                    <TableListTv tvShows={this.state.tvResults} />
+                                </div> : ""}
+
                         </Col>
                         <Col>
                             {this.state.boxOffice ? <NowPlaying boxOfficeData={this.state.boxOffice} /> : <div></div>}

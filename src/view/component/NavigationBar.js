@@ -19,7 +19,8 @@ export default class NavigationBar extends Component {
         super(props);
         this.collapseToggleNavbar = this.collapseToggleNavbar.bind(this);
         this.loginRender = this.loginRender.bind(this);
-        this.state = { collapseNavbar: false, };
+        this.onLogout = this.onLogout.bind(this);
+        this.state = { collapseNavbar: false, logout: false, };
     }
 
     collapseToggleNavbar() {
@@ -28,17 +29,42 @@ export default class NavigationBar extends Component {
         });
     }
 
+    onLogout() {
+        if (this.state.logout == true) {
+            localStorage.clear();
+            return <Redirect to={{
+                pathname: '/',
+            }} />
+            //window.location.reload(false);
+        }
+    }
+
     loginRender(loginData) {
         return (
-            <div style={{ padding: 8 }}>
-                <Link to={{ pathname: "/popular-celebs", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
-                    Welcome  {loginData.username} 
-                </Link>&emsp;
-                <Button color="link" style={styles.logoutButtonStyle} size="sm" onClick={() => {
-                    localStorage.clear();
-                    window.location.reload(false);
-                }}></Button>
-            </div>
+            <Nav className="ml-auto">
+                <NavItem style={styles.navbarTextStyle}>
+                    <Link to={{ pathname: "/watched-list", search: ("?id:" + loginData.id) }} style={styles.linkStyle}>
+                        Watched List
+                    </Link>
+                </NavItem>
+                <NavItem style={styles.navbarTextStyle}>
+                    <Link to={{ pathname: "/watch-later", search: ("?id:" + loginData.id) }} style={styles.linkStyle}>
+                        Watch Later
+                    </Link>
+                </NavItem>
+                <NavItem style={styles.navbarTextStyle}>
+                    <Link to={{ pathname: "/profile-details", search: ("?id:" + loginData.id) }} style={styles.linkStyle}>
+                        Welcome  {loginData.username}
+                    </Link>{/*&emsp*/}
+                </NavItem>
+                <NavItem style={styles.navbarTextStyle}>
+                    <Button color="link" style={styles.logoutButtonStyle} size="sm" onClick={() => this.setState({ logout: true })} />
+                    {this.onLogout()}{/*Butona basınca doğrudan fonksiyona göndererek çalışmadığı için state 
+                belirledim(Butona basınca true oluyor) ve burada sürekli fonksiyona göndererek kontrol etmesini sağladım*/}
+                </NavItem>
+
+            </Nav>
+
         )
     }
 
@@ -58,29 +84,32 @@ export default class NavigationBar extends Component {
                             <NavbarArama />
                             <Nav className="mr-auto" style={{ height: '50%', width: '100%', marginTop: 5 }} navbar>  {/*sağa almak için ml-auto*/}
                                 <NavItem style={styles.navbarTextStyle}>
-                                    <Link to={{ pathname: "/trends", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
+                                    <Link to={{ pathname: "/top100", }} style={styles.linkStyle}>
+                                        Top 100
+	                                </Link>
+                                </NavItem>
+                                <NavItem style={styles.navbarTextStyle}>
+                                    <Link to={{ pathname: "/trends", }} style={styles.linkStyle}>
                                         Weekly Trends
                                     </Link>
                                 </NavItem>
                                 <NavItem style={styles.navbarTextStyle}>
-                                    <Link to={{ pathname: "/upcoming", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
+                                    <Link to={{ pathname: "/upcoming", }} style={styles.linkStyle}>
                                         Upcoming
                                     </Link>
                                 </NavItem>
                                 <NavItem style={styles.navbarTextStyle}>
-                                    <Link to={{ pathname: "/popular-celebs", /*state: { id: card.id }*/ }} style={styles.linkStyle}>
+                                    <Link to={{ pathname: "/popular-celebs", }} style={styles.linkStyle}>
                                         Popular Celebs
                                     </Link>
                                 </NavItem>
-                                <Nav className="ml-auto">
-                                    <NavItem>
-
-                                        {loginData ?
-                                            this.loginRender(loginData)
-                                            :
-                                            <LoginDropdown navbarTextStyle={styles.navbarTextStyle} />}
-                                    </NavItem>
-                                </Nav>
+                                {loginData ?
+                                    this.loginRender(loginData) :
+                                    <Nav className="ml-auto">
+                                        <NavItem style={styles.navbarTextStyle}>
+                                            <LoginDropdown />
+                                        </NavItem>
+                                    </Nav>}
                             </Nav>
                         </div>
                     </Collapse>
@@ -100,10 +129,10 @@ const styles = {
         backgroundRepeat: 'no-repeat'
     },
     navbarTextStyle: {
-        fontSize: 15,
+        fontSize: 13,
         backgroundColor: 'rgba(0, 0, 0, 0)',
         border: 0,
-        padding: 8,
+        margin: 5,
     },
     linkStyle: {
         color: '#ffffff',

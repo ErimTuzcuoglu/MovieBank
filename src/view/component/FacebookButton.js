@@ -15,6 +15,7 @@ export default class FacebookButton extends Component {
         if (response.id != (null || "" || undefined)) {
 
             const logData = {
+                /*Sadece şimdilik bunu kullanıyorum.Bağlarken silicez*/ id: response.id,
                 name: response.name.substring(0, response.name.lastIndexOf(" ")),
                 surname: response.name.substring(response.name.lastIndexOf(" ")+1),
                 username: response.name,

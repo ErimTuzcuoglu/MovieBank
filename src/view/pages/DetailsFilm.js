@@ -29,7 +29,7 @@ import StarRating from '../component/StarRating';
 export default class DetailsFilm extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.state = { rating: "0", showMoreButtonVisiblity: true };
+        this.state = { rating: "0", showMoreBtnVisbltyCast: true, showMoreBtnVisbltyCrew: true };
         this.giveRate = this.giveRate.bind(this);
         actions.getFilmDetails(this.props.location.search.split(":")[1]);
         actions.getFilmCredits(this.props.location.search.split(":")[1]);
@@ -56,21 +56,42 @@ export default class DetailsFilm extends Reflux.Component {
         });
     }
 
+    renderCastCrewCard(data, choice) {
+        let castOrCrew = "";
+        if (choice == "cast")
+            castOrCrew = <p>Role: {data.character}</p>;
+        else if (choice == "crew")
+            castOrCrew = <p>
+                Department: {data.department} <br />
+                Job: {data.job}
+                </p>;
+
+        return (
+            <Link to={{ pathname: "/celeb-detail", search: "?id:" + data.id, }} style={{ textDecoration: 'none' }}>
+                <Card style={{ width: 120, margin: 3 }}>
+                    <CardImg top width="100%" style={{ height: 177 }} src={
+                        (data.profile_path ? Poster_Link + data.profile_path : UnknownProfile)} alt="Photo" />
+                    <CardBody style={{ padding: 10, minHeight: 80 }}>
+                        <CardTitle style={{ fontSize: 12 }}>{data.name}</CardTitle>
+                        <CardSubtitle style={{ fontSize: 10 }}>
+                            {castOrCrew}
+                        </CardSubtitle>
+                    </CardBody>
+                </Card>
+            </Link>
+        )
+    }
+
     renderCredits(film_details) {
-        let cast = "";
+        let cast = "", crew = "";
 
         if (this.state.credits) {
             cast = (this.state.credits.cast.map((data) =>
-                <Link to={{ pathname: "/celeb-detail", search: "?id:" + data.id, }} style={{ textDecoration: 'none' }}>
-                    <Card style={{ width: 120, margin: 3 }}>
-                        <CardImg top width="100%" style={{ height: 177 }} src={
-                            (data.profile_path ? Poster_Link + data.profile_path : UnknownProfile)} alt="Photo" />
-                        <CardBody style={{ padding: 10, minHeight: 80 }}>
-                            <CardTitle style={{ fontSize: 12 }}>{data.name}</CardTitle>
-                            <CardSubtitle style={{ fontSize: 10, color:"#000000" }}>{data.character}</CardSubtitle>
-                        </CardBody>
-                    </Card>
-                </Link>))
+                this.renderCastCrewCard(data, "cast")
+            ))
+            crew = (this.state.credits.crew.map((data) =>
+                this.renderCastCrewCard(data, "crew")
+            ))
         }
 
         return (
@@ -80,18 +101,24 @@ export default class DetailsFilm extends Reflux.Component {
                 <hr /><h5>Cast</h5>
                 <Row>
                     {cast.slice(0, 10)}
-                    {this.state.showMoreButtonVisiblity ?
-                        <Button color="link" style={{ textDecoration: 'none' }} onClick={() => this.setState({ showMoreButtonVisiblity: false })}>Show More</Button>
-                        : cast.slice(10)}
+                    {this.state.showMoreBtnVisbltyCast ?
+                        <Button color="link" style={{ textDecoration: 'none' }} onClick={() => this.setState({ showMoreBtnVisbltyCast: false })}>Show More</Button>
+                        : cast.slice(10)} {/* cast.slice(10) ile 10. itemden sonrakinleri alıyor. */}
                 </Row>
                 <h5>Crew</h5>
-                {this.state.credits ? this.state.credits.crew.map((data) =>
+                <Row>
+                    {crew.slice(0, 10)}
+                    {this.state.showMoreBtnVisbltyCrew ?
+                        <Button color="link" style={{ textDecoration: 'none' }} onClick={() => this.setState({ showMoreBtnVisbltyCrew: false })}>Show More</Button>
+                        : crew.slice(10)}
+                </Row>
+                {/* {this.state.credits ? this.state.credits.crew.map((data) =>
                     <Link to={{
                         pathname: "/celeb-detail",
                         search: "?id:" + data.id,
                         //state: { card: card, }
                     }}> {data.name + " (" + data.job + "), "}
-                    </Link>) : ""}
+                    </Link>) : ""} */}
             </CardText>
         )
     }
@@ -104,7 +131,7 @@ export default class DetailsFilm extends Reflux.Component {
                     search: ("?id:" + film_details.id), //"?film=" + card.title.replace(" ", "-")+ ""
                     //state: { id: card.id },
                 }}>
-                    <Button color="secondary" style={{ margin: 5 }}>
+                    <Button color="secondary" style={{ marginLeft: -10 }}>
                         Comments
                         </Button>
                 </Link>
@@ -134,10 +161,10 @@ export default class DetailsFilm extends Reflux.Component {
         let rendereds;
         rendereds = (
             <Card className="cardStyle">
-                <div className="embed-container"><iframe src={film_video} width="100%" height="100%" type="text/html" frameBorder="0" allowfullscreen></iframe></div>
+                {(film_video != Youtube_Link) ? <div className="embed-container"><iframe src={film_video} width="100%" height="100%" type="text/html" frameBorder="0" allowfullscreen></iframe></div> : ""}
 
 
-                <CardTitle className="titleStyle"><b>{film_details.title}</b></CardTitle>
+                <CardTitle className="titleStyle"><b>{film_details.original_title}</b></CardTitle>
                 <hr />
                 <CardBlock /*style={{ border: '1px solid #d6d7da'}}*/>
                     <div>
@@ -149,18 +176,24 @@ export default class DetailsFilm extends Reflux.Component {
                             </div>
                         </div>
                         <div style={{ float: 'right', width: '70%', marginLeft: 10 }}>
+                            <CardText><b>Runtime: </b>{film_details.runtime} min</CardText><hr />
+                            <CardText><b>Release Date: </b>{film_details.release_date}</CardText><hr />
+                            <CardText><b>Genres: </b>{this.getCommadString(film_details.genres)}</CardText><hr />
                             <CardText><b>Production Companies: </b>{this.getCommadString(film_details.production_companies)}</CardText><hr />
+                            {film_details.budget ? <div><CardText><b>Production Budget: </b>{film_details.budget}</CardText><hr /></div> : ""}
                             <CardText><b>Production Countries: </b>{this.getCommadString(film_details.production_countries)}</CardText><hr />
                             <CardText><b>Spoken Languages: </b>{this.getCommadString(film_details.spoken_languages)}</CardText><hr />
-                            <CardText><b>Genres: </b>{this.getCommadString(film_details.genres)}</CardText><hr />
-                            <CardText><b>Homepage: </b><a href={film_details.homepage}>{film_details.homepage}</a></CardText><hr />
+                            {film_details.homepage ? <div><CardText><b>Homepage: </b><a href={film_details.homepage}>{film_details.homepage}</a></CardText><hr /></div> : ""}
                         </div>
                     </div>
                 </CardBlock>
+                <CardBlock style={{ marginBottom: -50}}>
+                    < hr />
+                    {this.renderBottomButtons(film_details)}
+                    </CardBlock>
                 <CardBlock>
                     {this.renderCredits(film_details)}
                 </CardBlock>
-                {this.renderBottomButtons(film_details)}
                 {/* <CardSubtitle className="subtitleStyle"></CardSubtitle> */}
             </Card>
         )
@@ -169,7 +202,7 @@ export default class DetailsFilm extends Reflux.Component {
     }
 
     render() {
-        document.title = (this.state.film_details) ? this.state.film_details.title + " - MovieBank" : "MovieBank";
+        document.title = (this.state.film_details) ? this.state.film_details.original_title + " - MovieBank" : "MovieBank";
         return (
             <div>
                 <NavigationBar />

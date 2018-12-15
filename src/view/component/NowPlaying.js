@@ -36,10 +36,10 @@ export default class NowPlaying extends Component {
 
 const style = {
     ctStyle: {
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#eeeeee',
         minHeight: 500,
         border: '1px solid #d6d7da',
-        borderRadius: 8,
+        borderRadius: 5,
         padding: 20,
         marginBottom: 30,
     },

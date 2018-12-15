@@ -24,35 +24,35 @@ export default class HomePage extends Reflux.Component {
     render() {
         return (
             <div>
-            <NavigationBar />
-            <div style={{ margin: '3%' }} className="w-screen">
-                <Container fluid>
-                    <Row>
-                        <Col sm={12} md={8} lg={9}>
-                            <ContentContainer title="Trending of this week">
-                                {this.state.playing ? <CardListMovie list={this.state.playing} /> : <div></div>}
-                                {/* console.log(this.state.playing) */}
-                            </ContentContainer>
+                <NavigationBar />
+                <div style={{ margin: '3%' }} className="w-screen">
+                    <Container fluid>
+                        <Row>
+                            <Col sm={12} md={8} lg={9}>
+                                <ContentContainer title="Trending of this week">
+                                    {this.state.playing ? <CardListMovie items={4} list={this.state.playing} /> : "Loading..."}
+                                    {/* console.log(this.state.playing) */}
+                                </ContentContainer>
 
-                            <ContentContainer title="Upcoming">
-                                {this.state.news ? <CardListMovie list={this.state.news} /> : <div></div>}
-                            </ContentContainer>
+                                <ContentContainer title="Upcoming">
+                                    {this.state.news ? <CardListMovie items={4} list={this.state.news} /> : "Loading..."}
+                                </ContentContainer>
 
-                            <ContentContainer title="Popular Celebs of this week" style={{ height: 700 }}>
-                                {this.state.celebs ? <CardListCeleb list={this.state.celebs} /> : <div></div>}
-                            </ContentContainer>
-                        </Col>
-                        <Col>
-                            {this.state.boxOffice ? <NowPlaying boxOfficeData={this.state.boxOffice}/> : <div></div>}
-                            {/* {this.state.news ? <CardList list={this.state.news} /> : <div></div>} */}
-                            
-                        </Col>
-                    </Row>
+                                <ContentContainer title="Popular Celebs of this week" style={{ height: 700 }}>
+                                    {this.state.celebs ? <CardListCeleb list={this.state.celebs} /> : "Loading..."}
+                                </ContentContainer>
+                            </Col>
+                            <Col>
+                                {this.state.boxOffice ? <NowPlaying boxOfficeData={this.state.boxOffice} /> : "Loading..."}
+                                {/* {this.state.news ? <CardList list={this.state.news} /> : <div></div>} */}
+
+                            </Col>
+                        </Row>
 
 
-                </Container>
-                <Footer />
-            </div>
+                    </Container>
+                    <Footer />
+                </div>
             </div>
         );
     }

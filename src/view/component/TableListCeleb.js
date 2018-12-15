@@ -5,6 +5,7 @@ import {
 } from 'reactstrap';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Poster_Link } from './../../controller/utils/Api';
+import UnknownProfile from '../image/unknown-profile.jpg';
 
 export default class TableListCeleb extends Component {
 
@@ -39,16 +40,15 @@ export default class TableListCeleb extends Component {
                             <th style={{ width: '10%' }}>#</th>
                             <th style={{ width: '10%' }}>Photo</th>
                             <th style={{ width: '30%' }}>Name</th>
-                            <th style={{ width: '40%' }}>Known With</th>
-                            <th style={{ width: '10%' }}>Known Department</th>
+                            <th style={{ width: '50%' }}>Known With</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.props.celebs.map((celeb, index) =>
                             <tr>
                                 <th style={{ width: '10%' }}>{index + 1}</th>
-                                <th style={{ width: '10%' }}>{(celeb.profile_path) ?
-                                    <Media object src={Poster_Link + celeb.profile_path} alt="No Poster" style={{ maxHeight: 120 }} /> : <div></div>}
+                                <th style={{ width: '10%' }}>
+                                    <Media object src={(celeb.profile_path) ? Poster_Link + celeb.profile_path : UnknownProfile} alt="Loading" style={{ maxHeight: 120 }} />
                                 </th>
                                 <th style={{ width: '30%' }}>
                                     <Link to={{
@@ -59,8 +59,7 @@ export default class TableListCeleb extends Component {
                                         {celeb.name}
                                     </Link>
                                 </th>
-                                <th style={{ width: '40%' }}>{this.celebKnownMap(celeb.known_for)}</th>
-                                <th style={{ width: '10%' }}>{celeb.known_for_department}</th>
+                                <th style={{ width: '50%' }}>{this.celebKnownMap(celeb.known_for)}</th>
                             </tr>
                         )}
                     </tbody>

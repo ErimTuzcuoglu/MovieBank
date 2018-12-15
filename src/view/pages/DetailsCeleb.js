@@ -64,14 +64,14 @@ export default class DetailsCeleb extends Reflux.Component {
                             <CardImg className="imgStyle" width={'100%'} src={celeb_details.profile_path ? Poster_Link + celeb_details.profile_path : UnknownProfile} />
                         </div>
                         <div style={{ float: 'right', width: '75%', marginLeft: 10 }}>
-                            <CardText><b>Place of birth: </b>{celeb_details.place_of_birth ? celeb_details.place_of_birth : "Unknown"}</CardText><hr />
-                            <CardText><b>Born: </b>{celeb_details.birthday ? this.dateConverter(celeb_details.birthday) : "Unknown"}</CardText><hr />
-                            {celeb_details.deathday ? <div><CardText><b>Died: </b>{celeb_details.deathday ? this.dateConverter(celeb_details.deathday) : ""}</CardText><hr/></div> : ""}
-                            <CardText><b>Known with: </b>{celeb_details.known_for_department ? celeb_details.known_for_department : "Unknown"}</CardText><hr />
-                            {(celeb_details.homepage) ? <div><CardText><b>Homepage: </b><a href={celeb_details.homepage}>{celeb_details.homepage ? celeb_details.homepage : "Unknown"}</a></CardText><hr /></div> : ""}
+                            <CardText><b>Place of birth: </b>{celeb_details.place_of_birth ? celeb_details.place_of_birth : "Unknown"}</CardText>
+                            <CardText><b>Born: </b>{celeb_details.birthday ? this.dateConverter(celeb_details.birthday) : "Unknown"}</CardText>
+                            {celeb_details.deathday ? <div><CardText><b>Died: </b>{celeb_details.deathday ? this.dateConverter(celeb_details.deathday) : ""}</CardText><br /></div> : ""}
+                            <CardText><b>Known with: </b>{celeb_details.known_for_department ? celeb_details.known_for_department : "Unknown"}</CardText>
+                            {(celeb_details.homepage) ? <div><CardText><b>Homepage: </b><a href={celeb_details.homepage}>{celeb_details.homepage ? celeb_details.homepage : "Unknown"}</a></CardText></div> : ""}
                         </div>
                     </div>
-                    <CardText className="overviewStyle">{celeb_details.biography}</CardText>
+                    <hr /><CardText className="overviewStyle"><b>Biography</b><br /> {celeb_details.biography}</CardText>
                 </CardBlock>
                 {/* <CardSubtitle className="subtitleStyle">
                     <div className="bottomStyle">

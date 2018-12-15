@@ -34,7 +34,7 @@ const styles = {
         maxHeight: 300
     },
     subtitleStyle: {
-        backgroundColor: '#efefef',
+        backgroundColor: '#ffffff',
         minheight: 50,
         border: '1px solid #d6d7da',
         flex: 1,
