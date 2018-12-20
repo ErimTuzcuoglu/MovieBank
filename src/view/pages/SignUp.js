@@ -64,7 +64,7 @@ const styles = {
         width: '75%',
         borderRadius: 12,
         padding: '2%',
-        marginTop: '10%',
+        marginTop: '5%',
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
     }
 }

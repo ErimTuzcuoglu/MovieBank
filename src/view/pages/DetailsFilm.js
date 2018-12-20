@@ -68,7 +68,7 @@ export default class DetailsFilm extends Reflux.Component {
 
         return (
             <Link to={{ pathname: "/celeb-detail", search: "?id:" + data.id, }} style={{ textDecoration: 'none' }}>
-                <Card style={{ width: 120, margin: 3 }}>
+                <Card style={{ width: 120, minHeight:270, margin: 3 }}>
                     <CardImg top width="100%" style={{ height: 177 }} src={
                         (data.profile_path ? Poster_Link + data.profile_path : UnknownProfile)} alt="Photo" />
                     <CardBody style={{ padding: 10, minHeight: 80 }}>

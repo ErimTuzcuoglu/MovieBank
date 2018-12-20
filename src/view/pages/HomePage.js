@@ -48,11 +48,9 @@ export default class HomePage extends Reflux.Component {
 
                             </Col>
                         </Row>
-
-
                     </Container>
-                    <Footer />
                 </div>
+                <Footer />
             </div>
         );
     }

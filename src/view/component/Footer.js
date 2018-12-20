@@ -9,8 +9,14 @@ export default class Footer extends Component {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 backgroundColor: '#343a40',
+                padding: 20,
+                fontSize: 15,
                 height: 80,
+
+                position: 'absolute',
+                bottom: 0,
                 marginBottom: -30,
+                width: '100%',
                 color: 'white'
                 // margin: 30
  }}>

@@ -8,9 +8,11 @@ import {
     CardTitle,
     CardSubtitle,
     CardText,
-    Badge
+    CardBody,
+    Button
 } from 'reactstrap';
 import Reflux from 'reflux';
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { CelebsStore } from '../../controller/stores/CelebStore';
 import { BoxOfficeStore } from '../../controller/stores/BoxOfficeStore';
 import { actions } from '../../actions';
@@ -23,7 +25,9 @@ import '../css/DetailsPage.css';
 export default class DetailsCeleb extends Reflux.Component {
     constructor(props) {
         super(props);
+        this.state = { showMoreBtnVisblty: true }
         actions.getCelebDetails(this.props.location.search.split(":")[1]);
+        actions.getPersonMovieCredits(this.props.location.search.split(":")[1]);
         this.stores = [CelebsStore, BoxOfficeStore];
     }
 
@@ -49,6 +53,24 @@ export default class DetailsCeleb extends Reflux.Component {
         return formatted;
     }
 
+    renderPersonMovieCredits() {
+        let cards = this.state.personMovieCredits[0].cast.map((data) => {
+            return <Link to={{ pathname: "/film-detail", search: "?id:" + data.id, }} style={{ textDecoration: 'none' }}>
+                <Card style={{ width: 120, minHeight: 270, margin: 3 }}>
+                    <CardImg top width="100%" style={{ height: 177 }} src={
+                        (data.poster_path ? Poster_Link + data.poster_path : UnknownProfile)} alt="Photo" />
+                    <CardBody style={{ padding: 10, minHeight: 80 }}>
+                        <CardTitle style={{ fontSize: 12 }}>{data.original_title}</CardTitle>
+                        <CardSubtitle style={{ fontSize: 10 }}>
+                            {data.character}
+                        </CardSubtitle>
+                    </CardBody>
+                </Card>
+            </Link>
+        })
+        return cards
+    }
+
     renderContent() {
         const celeb_details = this.state.celebDetails;
 
@@ -72,6 +94,17 @@ export default class DetailsCeleb extends Reflux.Component {
                         </div>
                     </div>
                     <hr /><CardText className="overviewStyle"><b>Biography</b><br /> {celeb_details.biography}</CardText>
+                </CardBlock>
+                <CardBlock>
+                    <CardText>
+                        <Row>
+                            {this.state.personMovieCredits ? this.renderPersonMovieCredits().slice(0, 10) : ""}
+                            {this.state.showMoreBtnVisblty ?
+                                <Button color="link" style={{ textDecoration: 'none' }} onClick={() => this.setState({ showMoreBtnVisblty: false })}>Show More</Button>
+                                : this.renderPersonMovieCredits().slice(10)}
+
+                        </Row>
+                    </CardText>
                 </CardBlock>
                 {/* <CardSubtitle className="subtitleStyle">
                     <div className="bottomStyle">

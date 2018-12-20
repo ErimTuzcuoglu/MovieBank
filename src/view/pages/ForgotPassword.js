@@ -21,7 +21,7 @@ export default class ForgotPassword extends Component {
             <div>
                 <NavigationBar />
 
-                <Container fluid style={{ margin: '5%', width: '90%' }}>
+                <Container fluid style={{ margin: '5%', width: '90%', height: '100%' }}>
                     <Row>
                         <Col sm={12} lg={6} style={styles.bodyStyle}>
                             <Label>I forgot my password</Label>
