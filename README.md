@@ -62,6 +62,7 @@ $ rails s -p 3001
 
 ## Contributing
 
+* **[Nafi Durmuş](https://github.com/nafidurmus)** 
 * **[Erim Tuzcuoglu](https://github.com/ErimTuzcuoglu)**  
 * **[Sefa Emrahoglu](https://github.com/sefaemrahoglu)** 
 
