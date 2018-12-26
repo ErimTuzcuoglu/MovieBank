@@ -1,6 +1,7 @@
 {
-  "name": "react-and-rails",
+  "name": "moviebank",
   "engines": {
+    "npm": "5.6.0",
     "node": "9.11.2"
   },
   "scripts": {
