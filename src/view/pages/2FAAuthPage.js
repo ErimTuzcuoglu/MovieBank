@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import {
     Input, Button, InputGroup, InputGroupAddon, Row, Col, Container, CardImg, Label
 } from 'reactstrap';
-import speakeasy from 'speakeasy';
+//import speakeasy from 'speakeasy';
+import otplib from 'otplib';
+//import { authenticator } from 'otplib/otplib-browser';
+import authenticator from 'otplib/authenticator';
+
 import QRCode from 'qrcode';
 import NavigationBar from '../component/NavigationBar';
 import Footer from '../component/Footer';
@@ -28,12 +32,12 @@ export default class TwoFAAuthPage extends Component {
 
     twoFactor(id) {
         if (id) {
-            var secret = speakeasy.generateSecret({ length: 20 });
-            console.log(secret.base32); // Save this value to your DB for the user
-            localStorage.setItem("secret", secret.base32);
+            const secret = authenticator.generateSecret(); // Save this value to your DB for the user
+            this.secret = secret; //global değişken
             // Example:  JFBVG4R7ORKHEZCFHZFW26L5F55SSP2Y
-
-            QRCode.toDataURL(secret.otpauth_url)
+            
+            const otpauth = authenticator.keyuri('user', 'service', secret);
+            QRCode.toDataURL(otpauth)
             .then(image_data => {
                 this.setState({ qrCodeImg: image_data })
             })
@@ -46,20 +50,11 @@ export default class TwoFAAuthPage extends Component {
 
     verify(){
         // This is provided the by the user via form POST
-        var userToken = this.state.code//params.get('token');
-
-        // Load the secret.base32 from their user record in database
-        var secret = localStorage.getItem("secret");
-        // const secretAscii = base32.decode(secret);
-        // const secretHex = toHex(secretAscii);
-
+        const userToken = this.state.code//params.get('token');
+        var secret = this.secret;
+        //const token = authenticator.generate(secret);
         // Verify that the user token matches what it should at this moment
-        var verified = speakeasy.totp.verify({
-            secret: secret,
-            encoding: 'base32',
-            token: userToken
-        });
-
+        var verified = authenticator.check(userToken, secret)
         console.log(verified)
     }
 
