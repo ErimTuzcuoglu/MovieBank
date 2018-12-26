@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import axios from 'axios';
 
-const domainName = "http://localhost:3001/"//"http://moviebank.herokuapp.com/"
+const domainName = ""//"http://moviebank.herokuapp.com/"
 
 export function addNewUser(userData) {
     //   console.log(this.state.email + this.state.lastname + this.state.firstname + this.state.username + this.state.password + this.state.password_confirmation) 
