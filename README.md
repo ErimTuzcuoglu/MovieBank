@@ -22,6 +22,6 @@ $ HTTPS=true npm start
 ```
 ## Contributing
 
+* **[Erim Tuzcuoglu](https://github.com/ErimTuzcuoglu)** 
 * **[Nafi Durmuş](https://github.com/nafidurmus)** 
-* **[Erim Tuzcuoglu](https://github.com/ErimTuzcuoglu)**  
 * **[Sefa Emrahoglu](https://github.com/sefaemrahoglu)** 
