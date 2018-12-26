@@ -20,3 +20,8 @@ $ npm start
 # SSL güvenli giriş ile çalıştırmak için
 $ HTTPS=true npm start
 ```
+## Contributing
+
+* **[Nafi Durmuş](https://github.com/nafidurmus)** 
+* **[Erim Tuzcuoglu](https://github.com/ErimTuzcuoglu)**  
+* **[Sefa Emrahoglu](https://github.com/sefaemrahoglu)** 
