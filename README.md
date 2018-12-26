@@ -23,8 +23,6 @@ $ \curl -L https://get.rvm.io | bash -s stable --ruby // curl i indirelim
 $ rvm get stable --autolibs=enable
 $ rvm install ruby
 $ rvm --default use ruby-2.5.1
- 
-$ sudo apt-get install nodejs //nodejs i indirelim
 
 $ gem -v // 2.5.1
 
